@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1 Year Anniversary 💜</title>
+
+<style>
+/* =========================
+   ส่วนที่เพิ่ม : หน้าเข้าระบบ
+   (ไม่แตะโค้ดเดิม)
+========================= */
+
+/* หน้าซ้อนทั้งหมด */
+#gate{
+  position:fixed;
+  inset:0;
+  background:linear-gradient(135deg,#c7b6ff,#e6ddff);
+  z-index:9999;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+/* กล่องกลาง */
+.gate-card{
+  background:rgba(255,255,255,.25);
+  backdrop-filter:blur(25px);
+  padding:50px 40px;
+  border-radius:40px;
+  text-align:center;
+  box-shadow:0 30px 80px rgba(0,0,0,.25);
+  color:#fff;
+}
+
+/* input รหัส */
+.gate-card input{
+  width:100%;
+  padding:14px;
+  border-radius:30px;
+  border:none;
+  font-size:18px;
+  text-align:center;
+  outline:none;
+  margin-top:20px;
+}
+
+/* ปุ่ม */
+.gate-card button{
+  margin-top:20px;
+  padding:14px 40px;
+  border:none;
+  border-radius:40px;
+  font-size:18px;
+  cursor:pointer;
+}
+
+/* หน้าหลอดหัวใจ */
+#heartScreen{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:linear-gradient(135deg,#b8a6ff,#e3dcff);
+  z-index:9999;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  color:#fff;
+}
+
+/* หลอดหัวใจใหญ่ */
+.heart-container{
+  width:220px;
+  height:200px;
+  position:relative;
+  margin-bottom:30px;
+}
+
+/* รูปหัวใจ */
+.heart{
+  width:100%;
+  height:100%;
+  background:#fff;
+  clip-path:path("M110 30 C110 -10 0 -10 0 60 C0 120 110 180 110 180 C110 180 220 120 220 60 C220 -10 110 -10 110 30 Z");
+  position:relative;
+  overflow:hidden;
+}
+
+/* น้ำในหัวใจ */
+.heart-fill{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:0%;
+  background:linear-gradient(#7a5cff,#b79bff);
+  transition:height .3s;
+}
+
+/* หน้าจอดำ + พลุ */
+#fireworkScreen{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:black;
+  z-index:9999;
+  overflow:hidden;
+}
+
+/* พลุ */
+.firework{
+  position:absolute;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  animation:boom 1.2s ease-out forwards;
+}
+
+@keyframes boom{
+  from{transform:scale(0);opacity:1;}
+  to{transform:scale(6);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     หน้าใส่รหัส
+========================= -->
+<div id="gate">
+  <div class="gate-card">
+    <h1>💜 สำหรับโอปอ</h1>
+    <p>ใส่รหัสเพื่อเข้า</p>
+    <input id="passwordInput" type="password" placeholder="••••••">
+    <button id="confirmBtn">ยืนยัน</button>
+  </div>
+</div>
+
+<!-- =========================
+     หน้าหลอดหัวใจ
+========================= -->
+<div id="heartScreen">
+  <div class="heart-container">
+    <div class="heart">
+      <div class="heart-fill" id="heartFill"></div>
+    </div>
+  </div>
+  <p>แตะหน้าจอเพื่อเติมหัวใจ 💜</p>
+</div>
+
+<!-- =========================
+     หน้าพลุ
+========================= -->
+<div id="fireworkScreen"></div>
+
+<!-- =========================
+     === โค้ดเดิมของคุณ ===
+     (ผมไม่แก้แม้แต่บรรทัดเดียว)
+========================= -->
+
+<!-- 🔽🔽🔽 ตรงนี้คือโค้ดเดิมคุณทั้งหมด 🔽🔽🔽 -->
+
+<!-- (ย่อไว้ในคำอธิบายนี้ แต่ของจริงคุณวางโค้ดเดิมทั้งหมดไว้ตรงนี้ได้เลย) -->
+
+<script>
+/* =========================
+   JS ส่วนที่เพิ่ม
+========================= */
+
+let used = false;
+let fill = 0;
+
+// ใส่รหัส
+document.getElementById("confirmBtn").addEventListener("click",()=>{
+  if(used) return;
+
+  const v = document.getElementById("passwordInput").value;
+  if(v === "080225"){
+    used = true;
+    document.getElementById("gate").style.display="none";
+    document.getElementById("heartScreen").style.display="flex";
+  }else{
+    alert("รหัสไม่ถูกต้อง");
+  }
+});
+
+// เติมหัวใจ
+document.getElementById("heartScreen").addEventListener("click",()=>{
+  if(fill >= 100) return;
+  fill += 5;
+  document.getElementById("heartFill").style.height = fill + "%";
+
+  if(fill >= 100){
+    setTimeout(startFirework,500);
+  }
+});
+
+// เริ่มพลุ
+function startFirework(){
+  document.getElementById("heartScreen").style.display="none";
+  const fw = document.getElementById("fireworkScreen");
+  fw.style.display="block";
+
+  const sound = new Audio("https://actions.google.com/sounds/v1/explosions/fireworks_burst.ogg");
+  sound.play();
+
+  for(let i=0;i<40;i++){
+    const f=document.createElement("div");
+    f.className="firework";
+    f.style.left=Math.random()*100+"vw";
+    f.style.top=Math.random()*100+"vh";
+    f.style.background=`hsl(${Math.random()*360},100%,70%)`;
+    fw.appendChild(f);
+    setTimeout(()=>f.remove(),1200);
+  }
+
+  setTimeout(()=>{
+    fw.style.display="none";
+    document.getElementById("intro").style.display="none";
+    document.getElementById("main").classList.add("show");
+  },2000);
+}
+</script>
+
+</body>
+</html>
